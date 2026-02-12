@@ -17,6 +17,14 @@ st.set_page_config(page_title="AI PDF Assistant V3", layout="wide")
 st.title("📄 AI PDF Assistant (V3)")
 st.caption("Upload a PDF and ask questions from it using Groq LLM.")
 
+with st.sidebar:
+    st.header("Controls")
+    if st.button("🧹 Clear Chat"):
+        st.session_state.chat_history = []
+
+
+
+
 # Session memory
 if "vector_db" not in st.session_state:
     st.session_state.vector_db = None
@@ -70,29 +78,33 @@ llm = ChatGroq(
 
 retriever = st.session_state.vector_db.as_retriever()
 
+if st.button("🧹 Clear Chat"):
+    st.session_state.chat_history = []
+
+
 user_input = st.chat_input("Ask a question about the document")
 
 if user_input:
     st.session_state.chat_history.append(("user", user_input))
 
-    # Retrieve relevant chunks (NEW API)
-    docs = retriever.invoke(user_input)
+    with st.spinner("Thinking..."):
+        docs = retriever.invoke(user_input)
+        context = "\n\n".join([doc.page_content for doc in docs])
 
-    context = "\n\n".join([doc.page_content for doc in docs])
+        prompt = f"""
+        Answer the question using ONLY the context below.
 
-    prompt = f"""
-    Answer the question using ONLY the context below.
+        Context:
+        {context}
 
-    Context:
-    {context}
+        Question:
+        {user_input}
+        """
 
-    Question:
-    {user_input}
-    """
-
-    response = llm.invoke(prompt).content
+        response = llm.invoke(prompt).content
 
     st.session_state.chat_history.append(("assistant", response))
+
 
 for role, message in st.session_state.chat_history:
     if role == "user":
