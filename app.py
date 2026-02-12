@@ -14,6 +14,7 @@ except Exception:
 
 st.set_page_config(page_title="DocuMind – RAG Document AI", layout="wide")
 st.title("📄 DocuMind – RAG-Powered Document Intelligence")
+st.caption("RAG-Powered Document Intelligence System")
 st.caption("Upload a PDF and ask questions from it using Groq LLM.")
 
 with st.sidebar:
