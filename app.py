@@ -12,9 +12,8 @@ try:
 except Exception:
     pass
 
-st.set_page_config(page_title="AI PDF Assistant V3", layout="wide")
-
-st.title("📄 AI PDF Assistant (V3)")
+st.set_page_config(page_title="DocuMind – RAG Document AI", layout="wide")
+st.title("📄 DocuMind – RAG-Powered Document Intelligence")
 st.caption("Upload a PDF and ask questions from it using Groq LLM.")
 
 with st.sidebar:
