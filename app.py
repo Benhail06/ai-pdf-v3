@@ -111,3 +111,13 @@ for role, message in st.session_state.chat_history:
         st.chat_message("user").write(message)
     else:
         st.chat_message("assistant").write(message)
+
+
+
+
+st.divider()
+st.markdown(
+    "<p style='text-align: center; font-size: 14px; color: grey;'>Designed by Benhail Benjamin</p>",
+    unsafe_allow_html=True
+)
+
